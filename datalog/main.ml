@@ -99,6 +99,27 @@ type item_expr= Const of int | Var of ? |
 
 
 
+type machine =
+  | Scan : table -> (row -> machine) -> machine
+  | Insert : row -> table -> (table -> machine) -> machine
+  | Union : table -> table -> (table -> machine) -> machine
+  | Return : table -> machine
+
+implementing scan usingSet.t? Kind of feels like a more powerful construct.
+table -> (row -> 'b) -> 'b
+
+Maybe I can't?
+Suppose it were list?
+
+| Scan t f ->  let rec loop = function 
+                | [] -> Done
+                | t :: ts -> interp (f t)  ??? (fun r -> loop ts)
+
+let tablecopy t1 t2 = Scan t1 (fun row1 -> 
+    Insert (row1, t2, fun t2 -> ? )
+  )
+
+
 
 *)
 
